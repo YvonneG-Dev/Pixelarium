@@ -1,7 +1,8 @@
 import QtQuick
+import QtCore
+import QtQuick.Controls
+import QtQuick.Dialogs
 import QtQuick.Layouts
-import QtQuick.Controls.Basic
-
 
 ApplicationWindow {
     id: window
@@ -11,80 +12,82 @@ ApplicationWindow {
     minimumHeight: 250
     visible: true
     title: qsTr("Pixelarium")
+
+    // Colors
     property bool lightMode: Application.styleHints.colorScheme === Qt.Light
     property color reallyDark: "#1f1f1f"
     property color dark: "#262626"
     property color reallyLight: "#e7e7e7"
     property color light: "#e0e0e0"
 
-    GridLayout {
-        id: grid
-        columns: width < 400 ? 1 : 2
-        rowSpacing: 0
-        columnSpacing: 0
+    background: Rectangle {
+        color: window.lightMode ? window.reallyLight : window.reallyDark
+    }
+
+    ColumnLayout {
         anchors.fill: parent
+        anchors.margins: 20
+        spacing: 15
 
-        Rectangle {
-            id: rectangle1
-            color: window.lightMode ? window.reallyLight : window.reallyDark
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+        // Title
+        Text {
+            text: "Pixelarium"
+            font.family: "Avenir Next"
+            font.pointSize: 24
+            font.bold: true
+            color: window.lightMode ? window.reallyDark : window.reallyLight
 
-            ColumnLayout {
-                anchors.fill: parent
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+            Layout.alignment: Qt.AlignTop | Qt.AlignLeading
+        }
 
-                Label {
-                    id: text1
-                    color: window.lightMode ? window.dark : window.light
-                    font.pixelSize: 120
-                    fontSizeMode: Text.Fit
-                    text: qsTr("Hello Pixelarium")
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.margins: 16
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
+        RowLayout {
+            spacing: 15
+            Button {
+                id: openImageButton
+                text: "Open Image"
+                palette.buttonText: window.lightMode ? window.dark : window.light
+                onClicked: {
+                    imageDialog.open()
                 }
+            }
+
+            Button {
+                text: window.lightMode ? "Dark Mode" : "Light Mode"
+                palette.buttonText: window.lightMode ? window.dark : window.light
+                onClicked: window.lightMode = !window.lightMode
             }
         }
 
+        // Image Placeholder
         Rectangle {
-            id: rectangle2
-            color: window.lightMode ? window.light : window.dark
-            Layout.fillHeight: true
+            id: imagePlaceholder
+            color: window.lightMode ? "#f4f4f4" : "#303030"
             Layout.fillWidth: true
+            Layout.fillHeight: true
 
-            ColumnLayout {
+            Image {
+                id: loadedImage
                 anchors.fill: parent
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                fillMode: Image.PreserveAspectFit
+                visible: status === Image.Ready
+            }
 
-                Button {
-                    id: button1
-                    text: window.lightMode ? qsTr("\u263D  Dark mode")
-                                           : qsTr("\u263C  Light mode")
-                    Layout.bottomMargin: 16
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-
-                    contentItem: Text {
-                        text: button1.text
-                        color: window.lightMode ? window.light : window.dark
-                        font: button1.font
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-
-                    background: Rectangle {
-                        implicitWidth: 120
-                        implicitHeight: 36
-                        radius: 8
-                        color: window.lightMode ? window.dark : window.light
-                    }
-
-                    onClicked: window.lightMode = !window.lightMode
-                }
+            Text {
+                id: noImageHint
+                color: window.lightMode ? window.dark : window.light
+                text: qsTr("No image loaded.")
+                anchors.centerIn: parent
+                visible: loadedImage.status !== Image.Ready
             }
         }
     }
 
+    FileDialog {
+        id: imageDialog
+        title: "Choose an image"
+        nameFilters: ["Bilddateien (*.png *.jpg *.jpeg *.bmp)"]
+        onAccepted: {
+            loadedImage.source = imageDialog.selectedFile
+        }
+    }
 }
