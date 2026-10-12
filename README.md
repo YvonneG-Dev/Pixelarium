@@ -1,31 +1,41 @@
 ## Pixelarium
 
-A C++20 and Qt 6 desktop application for exploring and analyzing images.
+Pixelarium is a desktop image viewer built with C++20 and Qt 6. It provides a simple interface for opening and viewing images, with basic image metadata displayed alongside the preview.
 
 ## Screenshot
 
-<img width="523" height="512" alt="image" src="https://github.com/user-attachments/assets/1f85ae91-2a68-4f9f-9696-6e32b1c75643" />
+<img width="701" height="512" alt="image" src="https://github.com/user-attachments/assets/40400733-8986-4354-bffb-0ceecc785b16" />
 
-## Current Features
+## Features
 
 * Open images using a file dialog
 * Display images while preserving their aspect ratio
+* Show image filenames and dimensions
 * Switch between light and dark mode
 
-## Technology
+## Technology Stack
 
 * C++20
 * Qt 6
 * Qt Quick / QML
 * CMake
 
+## Architecture
+
+Pixelarium uses an MVVM-inspired architecture.
+
+* **Model**: `ImageInfo` stores image metadata, including the filename and dimensions.
+* **ViewModel**: `ImageViewModel` exposes image metadata to the UI through Qt properties and signals.
+* **View**: `Main.qml` defines the user interface using Qt Quick and QML.
+
+This separation keeps the presentation layer distinct from the image metadata handling and builds on architectural concepts familiar from my iOS development experience.
+
 ## Project Status
 
-Pixelarium is under active development. The current version provides a basic image-viewing interface. Image metadata and analysis features are planned for future iterations.
+Pixelarium is a personal learning project under active development. It currently supports image viewing and metadata display, while serving as a practical exploration of modern C++, Qt Quick, and the integration of C++ with QML.
 
 ---
 
 **Note**
 
-This is a personal learning portfolio.
-Pull requests will not be accepted, but feedback and suggestions via Issues are welcome.
+This is a personal portfolio project. While contributions via pull requests are not currently accepted, feedback and suggestions via GitHub Issues are welcome.
