@@ -18,9 +18,11 @@ qt_add_executable(appPixelarium
 )
 
 qt_add_qml_module(appPixelarium
-    URI Pixelarium
+    URI appPixelarium
     QML_FILES
         Main.qml
+        SOURCES ImageInfo.h
+        SOURCES ImageViewModel.h ImageViewModel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
