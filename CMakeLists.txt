@@ -17,10 +17,8 @@ qt_add_executable(appPixelarium
 
 qt_add_qml_module(appPixelarium
     URI appPixelarium
-    QML_FILES
-        Main.qml
-        SOURCES ImageInfo.h
-        SOURCES ImageViewModel.h ImageViewModel.cpp
+    QML_FILES Main.qml
+    SOURCES ImageInfo.h ImageViewModel.h ImageViewModel.cpp
 )
 
 set_target_properties(appPixelarium PROPERTIES
