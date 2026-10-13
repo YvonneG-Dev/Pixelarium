@@ -2,7 +2,10 @@ cmake_minimum_required(VERSION 3.16)
 
 project(Pixelarium VERSION 0.1 LANGUAGES CXX)
 
+# set strict C++20 standard to allow cross platform functionality
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 
