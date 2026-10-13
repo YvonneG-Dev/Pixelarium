@@ -1,10 +1,10 @@
-## Pixelarium
+# Pixelarium
 
 Pixelarium is a desktop image viewer built with C++20 and Qt 6. It provides a simple interface for opening and viewing images, with basic image metadata displayed alongside the preview.
 
 ## Screenshot
 
-<img width="701" height="512" alt="image" src="https://github.com/user-attachments/assets/40400733-8986-4354-bffb-0ceecc785b16" />
+<img width="701" height="512" alt="Pixelarium showing a loaded image with metadata panel" src="https://github.com/user-attachments/assets/40400733-8986-4354-bffb-0ceecc785b16" />
 
 ## Features
 
@@ -29,6 +29,16 @@ Pixelarium uses an MVVM-inspired architecture.
 * **View**: `Main.qml` defines the user interface using Qt Quick and QML.
 
 This separation keeps the presentation layer distinct from the image metadata handling and builds on architectural concepts familiar from my iOS development experience.
+
+## Roadmap
+
+- [x] Open an image and show its name and dimensions
+- [x] Strict C++20 build setup
+- [ ] Robust error handling when an image cannot be loaded
+- [ ] Separate image loading from the ViewModel
+- [ ] Unit tests and continuous integration
+- [ ] More metadata (file size, format, color depth) and a histogram
+- [ ] Image processing with OpenCV (e.g. edge detection)
 
 ## Project Status
 
