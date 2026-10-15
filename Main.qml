@@ -79,6 +79,7 @@ ApplicationWindow {
                     id: loadedImage
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectFit
+                    source: imageViewModel.imageUrl
                     visible: status === Image.Ready
                 }
 
@@ -144,8 +145,7 @@ ApplicationWindow {
         title: "Choose an image"
         nameFilters: ["Bilddateien (*.png *.jpg *.jpeg *.bmp)"]
         onAccepted: {
-            loadedImage.source = imageDialog.selectedFile
-            imageViewModel.loadImage(imageDialog.selectedFile.toString())
+            imageViewModel.loadImage(imageDialog.selectedFile)
         }
     }
 }

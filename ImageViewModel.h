@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include <QUrl>
 #include "ImageInfo.h"
 
 class ImageViewModel : public QObject {
@@ -9,7 +10,10 @@ class ImageViewModel : public QObject {
     Q_OBJECT // Enables Qt's meta-object features (signals, slots, properties)
     QML_ELEMENT // Registers this C++ class directly as a native QML type via CMake
 
-    // QML can read this properties: imageName, imageWidth, imageHeight
+    // readable for QML
+    Q_PROPERTY(ImageState imageState READ imageState NOTIFY imageChanged)
+    Q_PROPERTY(QUrl imageUrl READ imageUrl NOTIFY imageChanged)
+    Q_PROPERTY(QString errorText READ errorText NOTIFY imageChanged)
     Q_PROPERTY(QString imageName READ imageName NOTIFY imageChanged)
     Q_PROPERTY(int imageWidth READ imageWidth NOTIFY imageChanged)
     Q_PROPERTY(int imageHeight READ imageHeight NOTIFY imageChanged)
@@ -18,18 +22,37 @@ public:
     // Reactive properties exposed to the QML view layer
     explicit ImageViewModel(QObject *parent = nullptr);
 
+    // Image state machine to update view
+    enum class ImageState {
+        NotLoaded,
+        Success,
+        Error
+    };
+
     // Read-only getter functions (guaranteed not to modify the object state)
+    ImageState imageState() const;
+    QUrl imageUrl() const;
+    QString errorText() const;
     QString imageName() const;
     int imageWidth() const;
     int imageHeight() const;
 
+    // Register Enum to QT
+    Q_ENUM(ImageState)
+
     // Invokable method acting as a bridge to receive commands from QML
-    Q_INVOKABLE void loadImage(const QString &filePath);
+    Q_INVOKABLE void loadImage(const QUrl &imageUrl);
 
 signals:
     // Notifies QML that properties have updated and the UI needs redrawing
     void imageChanged();
 
 private:
-    ImageInfo imageInfo; // Encapsulated data model holding the raw information
+    QUrl m_imageUrl;
+    ImageInfo m_imageInfo; // Encapsulated data model holding the raw information
+    ImageState m_imageState = ImageState::NotLoaded;
+    QString m_errorText;
+
+    void resetImageData();
+    void setErrorState(const QString &additionalErrorMessage);
 };
