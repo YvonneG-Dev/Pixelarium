@@ -25,6 +25,7 @@ public:
     // Image state machine to update view
     enum class ImageState {
         NotLoaded,
+        Loading,
         Success,
         Error
     };
@@ -42,6 +43,8 @@ public:
 
     // Invokable method acting as a bridge to receive commands from QML
     Q_INVOKABLE void loadImage(const QUrl &imageUrl);
+    Q_INVOKABLE void reportImageLoaded();
+    Q_INVOKABLE void reportImageLoadError();
 
 signals:
     // Notifies QML that properties have updated and the UI needs redrawing
@@ -54,5 +57,7 @@ private:
     QString m_errorText;
 
     void resetImageData();
+    void setLoadingState();
+    void setSuccessState();
     void setErrorState(const QString &additionalErrorMessage);
 };

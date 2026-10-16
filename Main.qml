@@ -80,17 +80,35 @@ ApplicationWindow {
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectFit
                     source: imageViewModel.imageUrl
-                    visible: status === Image.Ready
+                    onStatusChanged: {
+                        if (status === Image.Ready) {
+                            imageViewModel.reportImageLoaded()
+                        } else if (status === Image.Error) {
+                            imageViewModel.reportImageLoadError()
+                        }
+                    }
+                    visible: imageViewModel.imageState === ImageViewModel.ImageState.Success
                 }
 
                 Text {
                     id: noImageHint
                     color: window.lightMode ? window.dark : window.light
-                    text: imageViewModel.imageState === ImageViewModel.ImageState.Error ?
-                              qsTr(imageViewModel.errorText) :
-                              qsTr("No image loaded.")
+                    text: {
+                        switch (imageViewModel.imageState) {
+                        case ImageViewModel.ImageState.NotLoaded:
+                            return qsTr("No image loaded.")
+                        case ImageViewModel.ImageState.Loading:
+                            return qsTr("Loading...")
+                        case ImageViewModel.ImageState.Success:
+                            return ""
+                        case ImageViewModel.ImageState.Error:
+                            return imageViewModel.errorText
+                        default:
+                            return ""
+                        }
+                    }
                     anchors.centerIn: parent
-                    visible: loadedImage.status !== Image.Ready
+                    visible: imageViewModel.imageState !== ImageViewModel.ImageState.Success
                 }
             }
 
@@ -117,7 +135,7 @@ ApplicationWindow {
                     Text {
                         id: imageName
                         color: window.lightMode ? window.dark : window.light
-                        text: qsTr(imageViewModel.imageName ? imageViewModel.imageName : "-")
+                        text: imageViewModel.imageName || "-"
                     }
 
                     Text {
@@ -130,8 +148,9 @@ ApplicationWindow {
                     Text {
                         id: imageSize
                         color: window.lightMode ? window.dark : window.light
-                        text: qsTr(imageViewModel.imageWidth > 0 ? (imageViewModel.imageWidth + " x " + imageViewModel.imageHeight + " px") : "-")
-                    }
+                        text: imageViewModel.imageWidth > 0 ?
+                                imageViewModel.imageWidth + " x " + imageViewModel.imageHeight + " px"
+                                : "-"                    }
 
                     // Spacer
                     Item {

@@ -36,7 +36,19 @@ void ImageViewModel::resetImageData() {
     m_imageUrl = QUrl();
 }
 
+void ImageViewModel::setLoadingState() {
+    resetImageData();
+    m_imageState = ImageState::Loading;
+    emit imageChanged();
+}
+
+void ImageViewModel::setSuccessState() {
+    m_imageState = ImageState::Success;
+    emit imageChanged();
+}
+
 void ImageViewModel::setErrorState(const QString &additionalErrorMessage) {
+    resetImageData();
     m_imageState = ImageState::Error;
     m_errorText = "Error: " + additionalErrorMessage;
     emit imageChanged();
@@ -44,7 +56,7 @@ void ImageViewModel::setErrorState(const QString &additionalErrorMessage) {
 
 void ImageViewModel::loadImage(const QUrl &imageUrl) {
 
-    resetImageData();
+    setLoadingState();
 
     QString localPath = imageUrl.toLocalFile();
 
@@ -64,6 +76,15 @@ void ImageViewModel::loadImage(const QUrl &imageUrl) {
     m_imageInfo.width = imageSize.isValid() ? imageSize.width() : 0;
     m_imageInfo.height = imageSize.isValid() ? imageSize.height() : 0;
     m_imageUrl = imageUrl;
-    m_imageState = ImageState::Success;
+
+    // QML needs the url first, it can never call reportImageLoaded
     emit imageChanged();
+}
+
+void ImageViewModel::reportImageLoaded() {
+    setSuccessState();
+}
+
+void ImageViewModel::reportImageLoadError() {
+    setErrorState("cannot load image file");
 }
