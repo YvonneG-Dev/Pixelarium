@@ -86,7 +86,9 @@ ApplicationWindow {
                 Text {
                     id: noImageHint
                     color: window.lightMode ? window.dark : window.light
-                    text: qsTr("No image loaded.")
+                    text: imageViewModel.imageState === ImageViewModel.ImageState.Error ?
+                              qsTr(imageViewModel.errorText) :
+                              qsTr("No image loaded.")
                     anchors.centerIn: parent
                     visible: loadedImage.status !== Image.Ready
                 }
