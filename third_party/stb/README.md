@@ -10,7 +10,7 @@ Vendored copy of `stb_image.h`, a single-file public domain image loader by Sean
 
 ## Usage in Pixelarium
 
-Used later by `ImageLoader` to read image dimensions and channel count without decoding the full image. The implementation is enabled in exactly one translation unit (`ImageLoader.cpp`) via `STB_IMAGE_IMPLEMENTATION`.
+Used by `ImageLoader` to read image dimensions and channel count without decoding the full image. The implementation is enabled in exactly one translation unit (`ImageLoader.cpp`) via `STB_IMAGE_IMPLEMENTATION`.
 
 ## Notes
 

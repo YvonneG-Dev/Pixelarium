@@ -1,9 +1,9 @@
 #pragma once // Ensures the file is included only once during compilation
 
-#include<QString>
+#include<string>
 
 struct ImageInfo {
-    QString name;
+    std::string name;
     int width = 0;
     int height = 0;
 };

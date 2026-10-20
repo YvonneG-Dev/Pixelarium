@@ -18,7 +18,11 @@ qt_add_executable(appPixelarium
 qt_add_qml_module(appPixelarium
     URI appPixelarium
     QML_FILES Main.qml
-    SOURCES ImageInfo.h ImageViewModel.h ImageViewModel.cpp
+    SOURCES ImageInfo.h ImageViewModel.h ImageViewModel.cpp ImageLoader.h ImageLoader.cpp
+)
+
+target_include_directories(appPixelarium SYSTEM PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/third_party"
 )
 
 set_target_properties(appPixelarium PROPERTIES

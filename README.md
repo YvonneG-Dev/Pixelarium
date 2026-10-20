@@ -35,7 +35,7 @@ This separation keeps the presentation layer distinct from the image metadata ha
 - [x] Open an image and show its name and dimensions
 - [x] Strict C++20 build setup
 - [x] Error handling when an image cannot be loaded
-- [ ] Separate image loading from the ViewModel
+- [x] Separate image loading from the ViewModel
 - [ ] Unit tests and continuous integration
 - [ ] More metadata (file size, format, color depth) and a histogram
 - [ ] Image processing with OpenCV (e.g. edge detection)

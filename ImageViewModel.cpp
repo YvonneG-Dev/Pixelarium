@@ -1,6 +1,4 @@
 #include "ImageViewModel.h"
-#include <QImageReader>
-#include <QFileInfo>
 
 ImageViewModel::ImageViewModel(QObject *parent) : QObject(parent) {
 }
@@ -18,7 +16,7 @@ QString ImageViewModel::errorText() const {
 }
 
 QString ImageViewModel::imageName() const {
-    return m_imageInfo.name;
+    return QString::fromStdString(m_imageInfo.name);
 }
 
 int ImageViewModel::imageWidth() const {
@@ -59,26 +57,29 @@ void ImageViewModel::loadImage(const QUrl &imageUrl) {
     setLoadingState();
 
     QString localPath = imageUrl.toLocalFile();
-
     if (localPath.isEmpty()) {
         setErrorState("not a local file");
         return;
     }
 
-    QImageReader reader(localPath);
-    if (!reader.canRead()) {
-        setErrorState("cannot read image file");
+    auto result = m_imageLoader.load(localPath.toStdString());
+
+    if (auto* info = std::get_if<ImageInfo>(&result)) {
+        m_imageInfo = *info;
+
+        // QML needs the url first, otherwise it can never call reportImageLoaded
+        m_imageUrl = imageUrl;
+        emit imageChanged();
         return;
     }
-
-    QSize imageSize = reader.size();
-    m_imageInfo.name = QFileInfo(localPath).fileName();
-    m_imageInfo.width = imageSize.isValid() ? imageSize.width() : 0;
-    m_imageInfo.height = imageSize.isValid() ? imageSize.height() : 0;
-    m_imageUrl = imageUrl;
-
-    // QML needs the url first, it can never call reportImageLoaded
-    emit imageChanged();
+    else if (auto* errorMessage = std::get_if<std::string>(&result)) {
+        setErrorState(QString::fromStdString(*errorMessage));
+        return;
+    }
+    else {
+        setErrorState("unknown error");
+        return;
+    }
 }
 
 void ImageViewModel::reportImageLoaded() {

@@ -4,6 +4,7 @@
 #include <QQmlEngine>
 #include <QUrl>
 #include "ImageInfo.h"
+#include "ImageLoader.h"
 
 class ImageViewModel : public QObject {
     // Qt Meta-Object System configuration
@@ -55,6 +56,7 @@ private:
     ImageInfo m_imageInfo; // Encapsulated data model holding the raw information
     ImageState m_imageState = ImageState::NotLoaded;
     QString m_errorText;
+    ImageLoader m_imageLoader;
 
     void resetImageData();
     void setLoadingState();
