@@ -33,26 +33,23 @@ ApplicationWindow {
         anchors.margins: 20
         spacing: 15
 
-        // Title
-        Text {
-            text: "Pixelarium"
-            font.family: "Avenir Next"
-            font.pointSize: 24
-            font.bold: true
-            color: colors.primaryText
-
-            Layout.alignment: Qt.AlignTop | Qt.AlignLeading
-        }
-
+        // App Toolbar
         RowLayout {
             spacing: 15
-            Button {
-                id: openImageButton
-                text: qsTr("Open Image")
-                palette.buttonText: colors.primaryText
-                onClicked: {
-                    imageDialog.open()
-                }
+
+            // Title
+            Text {
+                text: "Pixelarium"
+                font.family: "Avenir Next"
+                font.pointSize: 24
+                font.bold: true
+                color: colors.primaryText
+
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeading
+            }
+
+            Item {
+                Layout.fillWidth: true
             }
 
             Button {
@@ -60,6 +57,22 @@ ApplicationWindow {
                 palette.buttonText: colors.primaryText
                 onClicked: window.lightMode = !window.lightMode
             }
+
+            Button {
+                id: openImageButton
+                text: qsTr("Open Image")
+                onClicked: {
+                    imageDialog.open()
+                }
+
+                palette.buttonText: colors.primaryText
+            }
+        }
+
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 1
+            color: colors.separator
         }
 
         RowLayout {
@@ -148,8 +161,10 @@ ApplicationWindow {
                         id: imageSize
                         color: colors.primaryText
                         text: imageViewModel.imageWidth > 0 ?
-                                imageViewModel.imageWidth + " x " + imageViewModel.imageHeight + " px"
-                                : "-"                    }
+                              imageViewModel.imageWidth + " x " +
+                              imageViewModel.imageHeight + " px" :
+                              "-"
+                    }
 
                     // Spacer
                     Item {
