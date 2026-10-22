@@ -19,6 +19,7 @@ qt_add_qml_module(appPixelarium
     URI appPixelarium
     QML_FILES
         qml/Main.qml
+        qml/Colors.qml
     SOURCES
         src/model/ImageInfo.h
         src/viewmodels/ImageViewModel.h

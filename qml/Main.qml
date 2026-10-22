@@ -18,15 +18,14 @@ ApplicationWindow {
         id: imageViewModel
     }
 
-    // Colors
+    Colors {
+        id: colors
+        isDark: !window.lightMode
+    }
     property bool lightMode: Application.styleHints.colorScheme === Qt.Light
-    property color reallyDark: "#1f1f1f"
-    property color dark: "#262626"
-    property color reallyLight: "#e7e7e7"
-    property color light: "#e0e0e0"
 
     background: Rectangle {
-        color: window.lightMode ? window.reallyLight : window.reallyDark
+        color: colors.windowBackground
     }
 
     ColumnLayout {
@@ -40,7 +39,7 @@ ApplicationWindow {
             font.family: "Avenir Next"
             font.pointSize: 24
             font.bold: true
-            color: window.lightMode ? window.reallyDark : window.reallyLight
+            color: colors.primaryText
 
             Layout.alignment: Qt.AlignTop | Qt.AlignLeading
         }
@@ -49,16 +48,16 @@ ApplicationWindow {
             spacing: 15
             Button {
                 id: openImageButton
-                text: "Open Image"
-                palette.buttonText: window.lightMode ? window.dark : window.light
+                text: qsTr("Open Image")
+                palette.buttonText: colors.primaryText
                 onClicked: {
                     imageDialog.open()
                 }
             }
 
             Button {
-                text: window.lightMode ? "Dark Mode" : "Light Mode"
-                palette.buttonText: window.lightMode ? window.dark : window.light
+                text: window.lightMode ? qsTr("Dark Mode") : qsTr("Light Mode")
+                palette.buttonText: colors.primaryText
                 onClicked: window.lightMode = !window.lightMode
             }
         }
@@ -70,7 +69,7 @@ ApplicationWindow {
             // Image Placeholder
             Rectangle {
                 id: imagePlaceholder
-                color: window.lightMode ? "#f4f4f4" : "#303030"
+                color: colors.itemBackground
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.preferredWidth: 3 // 3/4 of the window
@@ -92,7 +91,7 @@ ApplicationWindow {
 
                 Text {
                     id: noImageHint
-                    color: window.lightMode ? window.dark : window.light
+                    color: colors.primaryText
                     text: {
                         switch (imageViewModel.imageState) {
                         case ImageViewModel.ImageState.NotLoaded:
@@ -115,7 +114,7 @@ ApplicationWindow {
             // Image Data
             Rectangle {
                 id: imageDataPlaceholder
-                color: window.lightMode ? window.reallyLight : window.reallyDark
+                color: colors.itemBackground
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.preferredWidth: 1 // 1/4 of the window
@@ -128,26 +127,26 @@ ApplicationWindow {
                     Text {
                         id: imageNameTitle
                         font.bold: true
-                        color: window.lightMode ? window.dark : window.light
+                        color: colors.primaryText
                         text: qsTr("Image name:")
                     }
 
                     Text {
                         id: imageName
-                        color: window.lightMode ? window.dark : window.light
+                        color: colors.primaryText
                         text: imageViewModel.imageName || "-"
                     }
 
                     Text {
                         id: imageSizeTitle
                         font.bold: true
-                        color: window.lightMode ? window.dark : window.light
+                        color: colors.primaryText
                         text: qsTr("Image size:")
                     }
 
                     Text {
                         id: imageSize
-                        color: window.lightMode ? window.dark : window.light
+                        color: colors.primaryText
                         text: imageViewModel.imageWidth > 0 ?
                                 imageViewModel.imageWidth + " x " + imageViewModel.imageHeight + " px"
                                 : "-"                    }
