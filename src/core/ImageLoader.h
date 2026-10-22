@@ -3,7 +3,7 @@
 #include <variant>
 #include <filesystem>
 #include <string>
-#include "ImageInfo.h"
+#include "../model/ImageInfo.h"
 
 class ImageLoader
 {

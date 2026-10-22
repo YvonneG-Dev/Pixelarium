@@ -3,8 +3,8 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QUrl>
-#include "ImageInfo.h"
-#include "ImageLoader.h"
+#include "../model/ImageInfo.h"
+#include "../core/ImageLoader.h"
 
 class ImageViewModel : public QObject {
     // Qt Meta-Object System configuration

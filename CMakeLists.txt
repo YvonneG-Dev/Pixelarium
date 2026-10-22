@@ -12,13 +12,25 @@ find_package(Qt6 REQUIRED COMPONENTS Quick)
 qt_standard_project_setup(REQUIRES 6.10)
 
 qt_add_executable(appPixelarium
-    main.cpp
+    src/app/main.cpp
 )
 
 qt_add_qml_module(appPixelarium
     URI appPixelarium
-    QML_FILES Main.qml
-    SOURCES ImageInfo.h ImageViewModel.h ImageViewModel.cpp ImageLoader.h ImageLoader.cpp
+    QML_FILES
+        qml/Main.qml
+    SOURCES
+        src/model/ImageInfo.h
+        src/viewmodels/ImageViewModel.h
+        src/viewmodels/ImageViewModel.cpp
+        src/core/ImageLoader.h
+        src/core/ImageLoader.cpp
+)
+
+target_include_directories(appPixelarium PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/viewmodels"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/model"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/core"
 )
 
 target_include_directories(appPixelarium SYSTEM PRIVATE
