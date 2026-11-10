@@ -54,3 +54,8 @@ install(TARGETS appPixelarium
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+# testing
+
+enable_testing()
+add_subdirectory(tests)
