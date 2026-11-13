@@ -4,7 +4,9 @@ Pixelarium is a desktop image viewer built with C++20 and Qt 6. It provides a si
 
 ## Screenshot
 
-<img width="701" height="512" alt="Pixelarium showing a loaded image with metadata panel" src="https://github.com/user-attachments/assets/40400733-8986-4354-bffb-0ceecc785b16" />
+<img width="729" height="499" alt="image" src="https://github.com/user-attachments/assets/d362134c-3752-4ef6-9a5a-0193f2619cb1" />
+
+<img width="729" height="499" alt="image" src="https://github.com/user-attachments/assets/96bdc474-a240-43e4-8921-073ac6cc2a18" />
 
 ## Features
 
@@ -30,12 +32,33 @@ Pixelarium uses an MVVM-inspired architecture.
 
 This separation keeps the presentation layer distinct from the image metadata handling and builds on architectural concepts familiar from my iOS development experience.
 
+## Unit Tests
+
+Pixelarium includes unit tests written with GoogleTest 1.14.0.
+
+GoogleTest is included locally in the repository under `tests/googletest`, so no external download is required during CMake configuration.
+
+The current unit tests cover the `ImageLoader`:
+
+- An empty file path returns an error.
+- A non-existent file returns an error.
+- A valid PNG image is successfully inspected and its metadata is returned.
+
+The tests are registered with CTest and can be executed from the project root:
+
+```bash
+cmake -S . -B build
+cmake --build build
+ctest --test-dir build --output-on-failure
+```
+
 ## Roadmap
 
 - [x] Open an image and show its name and dimensions
 - [x] Strict C++20 build setup
 - [x] Error handling when an image cannot be loaded
 - [x] Separate image loading from the ViewModel
+- [x] Initial unit tests for ImageLoader using GoogleTest
 - [ ] Unit tests and continuous integration
 - [ ] More metadata (file size, format, color depth) and a histogram
 - [ ] Image processing with OpenCV (e.g. edge detection)
